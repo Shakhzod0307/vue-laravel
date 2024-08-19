@@ -1,7 +1,10 @@
 <template>
-    <div>
-        <h1>Hello Vue</h1>
-    </div>
+<!--    <h1>Hello vue</h1>-->
+    <router-view v-slot="{ Component, route }">
+        <div :key="route.name">
+            <Component :is="Component" />
+        </div>
+    </router-view>
 </template>
 
 <script>

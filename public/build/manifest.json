@@ -1,0 +1,46 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-l0sNRNKZ.js",
+    "name": "app",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-ASd2oVEd.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/pages/HomeRoute.vue",
+      "resources/js/pages/TestRoute.vue",
+      "resources/js/pages/Count.vue"
+    ]
+  },
+  "resources/js/pages/Count.vue": {
+    "file": "assets/Count-BD-i8fB-.js",
+    "name": "Count",
+    "src": "resources/js/pages/Count.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/pages/HomeRoute.vue": {
+    "file": "assets/HomeRoute-DteR_kub.js",
+    "name": "HomeRoute",
+    "src": "resources/js/pages/HomeRoute.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/pages/TestRoute.vue": {
+    "file": "assets/TestRoute-Clp4wJtS.js",
+    "name": "TestRoute",
+    "src": "resources/js/pages/TestRoute.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  }
+}
