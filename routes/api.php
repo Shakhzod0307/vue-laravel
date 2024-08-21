@@ -8,5 +8,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/users',function (){
-    return "Jamshid";
+    return ["Jamshid","Anvar",'Asil'];
 });
