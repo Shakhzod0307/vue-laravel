@@ -4,25 +4,26 @@
         <h1>Add new user</h1>
         <form @submit.prevent="FormData">
             <label for="f_name">First Name: </label>
-            <input type="text" v-model="first_name" id="f_name" name="f_name"><br>
+            <input type="text" v-model="first_name" id="f_name" name="f_name" required><br>
             <label for="l_name">Last Name: </label>
-            <input type="text" v-model="last_name" id="l_name" name="l_name"><br>
+            <input type="text" v-model="last_name" id="l_name" name="l_name" required><br>
             <label for="email">Email: </label>
-            <input type="email" v-model="email" id="email" name="email"><br>
+            <input type="email" v-model="email" id="email" name="email" required><br>
             <label for="password">Password: </label>
-            <input type="password" v-model="password" id="password" name="password"><br>
+            <input type="password" v-model="password" id="password" name="password" required><br>
             <button type="submit">Submit</button>
         </form>
     </div>
     <div>
         <h1>Here is users page</h1>
 <!--        <button @click.prevent="getValue">Trigger Endpoint</button>-->
-        <p v-if="response">
+        <p v-if="response.length">
             <ul v-for="(name ,index) in response" :key="index">
                 <li >
                     First Name: {{ name.f_name}}<br>
                     Last Name: {{ name.l_name}}<br>
-                    Email: {{ name.email}}
+                    Email: {{ name.email}}<br>
+                    <button @click="deleteUser(index)">Delete</button>
                 </li>
             </ul>
         </p>
@@ -43,7 +44,6 @@ const getValue = async () => {
         const {data} = await axios.get("/api/users");
         response.value = data;
     } catch (error) {
-        // Do something with the error
         console.log(error);
     }
 };
@@ -65,6 +65,19 @@ const FormData = async ()=>{
         console.log(error)
     }
 };
+const deleteUser = async (index)=>{
+    try{
+        const id = response.value[index].id;
+        await axios.delete(`/api/user/delete/${id}`);
+        response.value.splice(index,1)
+    }catch (error){
+        if (error.response && error.response.status === 403) {
+            console.error("Permission error: You do not have access to delete this user.");
+        } else {
+            console.error("There was an error deleting the user:", error);
+        }
+    }
+}
 onMounted(()=>{
     getValue();
 })
