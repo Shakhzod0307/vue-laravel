@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -9,3 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/users',[UserController::class,"index"])->name('users');
+Route::post('user/post',[UserController::class,'store'])->name('store.user');
