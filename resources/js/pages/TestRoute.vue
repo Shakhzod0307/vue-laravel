@@ -17,7 +17,7 @@
     <div>
         <h1>Here is users page</h1>
 <!--        <button @click.prevent="getValue">Trigger Endpoint</button>-->
-        <p v-if="response.length">
+        <p v-if="response">
             <ul v-for="(name ,index) in response" :key="index">
                 <li >
                     First Name: {{ name.f_name}}<br>
