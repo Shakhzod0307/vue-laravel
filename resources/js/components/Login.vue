@@ -5,7 +5,7 @@
             <form @submit.prevent="LoginSubmit" >
                 <div>
                     <label for="email" class="block mb-3 text-sm font-medium text-gray-700">Email Address</label>
-                    <input
+                    <input class="w-full px-3 py-2 mt-1 border rounded focus:outline-none focus:ring"
                         type="email"
                         id="email"
                         v-model="email"
@@ -18,6 +18,7 @@
                 <div>
                     <label for="password" class="block text-sm mt-4 mb-3 font-medium text-gray-700">Password</label>
                     <input
+                        class="w-full px-3 py-2 mt-1 border rounded focus:outline-none focus:ring"
                         type="password"
                         id="password"
                         v-model="password"

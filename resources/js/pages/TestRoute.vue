@@ -76,6 +76,7 @@
                         >
                             Delete
                         </button>
+                        <Logout/>
                     </li>
                 </ul>
             </div>
@@ -88,6 +89,7 @@
 <script setup>
 import axios from "axios"
 import {ref, onMounted} from "vue"
+import Logout from "../components/Logout.vue";
 const response = ref();
 const first_name = ref("");
 const last_name = ref("");

@@ -30,8 +30,8 @@ const routes = [
         component: () => import("./components/Register.vue"),
     },
     {
-        path: "/test",
-        name: "test",
+        path: "/users",
+        name: "users",
         component: () => import("./pages/TestRoute.vue"),
         meta: { requiresAuth: true },
         // beforeEnter: checkUserType,  // Add role check here

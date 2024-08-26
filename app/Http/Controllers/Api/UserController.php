@@ -31,6 +31,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
+//        $user->createToken('auth_token')->plainTextToken;
         return response()->json(['result'=>"New user created successfully!"]);
     }
 
@@ -68,14 +69,14 @@ class UserController extends Controller
     public function login(Request $request){
         $credentials = $request->only('email','password');
         try {
-            $token = Auth::attempt($credentials);
-            if (!$token){
+            if (!Auth::attempt($credentials)){
                 return response()->json(['error'=>'Invalid Credentials'],404);
             }
         }catch (Exception $e){
-            return response()->json(['error' => 'Could not create token'], 500);
+            return response()->json(['error' => 'Could not create token '. $e->__toString()], 500);
         }
         $user = Auth::user();
+        $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json([
             'status' => 'success',
             'user' => $user,
@@ -88,7 +89,6 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        // Validate incoming request
         $validator = Validator::make($request->all(), [
             'f_name' => 'required|string|max:255',
             'l_name' => 'required|string|max:255',
@@ -101,23 +101,22 @@ class UserController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-
-        // Create user
         $user = User::create([
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
-        // Generate token (if using Sanctum or Passport)
         $token = $user->createToken('auth_token')->plainTextToken;
-
-        // Return response
         return response()->json([
             'message' => 'Registration successful',
             'user' => $user,
             'token' => $token
         ], 201);
+    }
+
+    public function logout(Request $request){
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['success'=>'Successfully logged out']);
     }
 }

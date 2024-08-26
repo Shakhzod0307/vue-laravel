@@ -128,7 +128,7 @@ const submitForm = async () => {
         successMessage.value = response.data.message;
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
-        window.location.href = '/test';
+        window.location.href = '/users';
         form.value = {
             f_name: '',
             l_name: '',

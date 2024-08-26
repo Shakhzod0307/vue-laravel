@@ -15,3 +15,4 @@ Route::delete('/user/delete/{id}',[UserController::class,'destroy'])->name('dest
 
 Route::post('/login',[UserController::class,'login'])->name('login');
 Route::post('/register',[UserController::class,'register'])->name('register');
+Route::middleware('auth:sanctum')->post('/logout',[UserController::class,'logout'])->name('logout');
