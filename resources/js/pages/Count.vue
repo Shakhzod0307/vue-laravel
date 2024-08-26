@@ -1,5 +1,5 @@
 <template>
-    <router-link to="/">Home</router-link>
+    <router-link to="/" class="text-blue-500 hover:text-blue-700 font-semibold  hover:no-underline transition duration-300">Home</router-link>
     <div>
         <h4>Name: {{ name }}</h4>
         <button style="padding: 10px 25px; font-size: 25px"  @click="count++">{{ count }}</button>

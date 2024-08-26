@@ -11,3 +11,7 @@ Route::get('/user', function (Request $request) {
 Route::get('/users',[UserController::class,"index"])->name('users');
 Route::post('/user/post',[UserController::class,'store'])->name('store.user');
 Route::delete('/user/delete/{id}',[UserController::class,'destroy'])->name('destroy');
+
+
+Route::post('/login',[UserController::class,'login'])->name('login');
+Route::post('/register',[UserController::class,'register'])->name('register');

@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -60,5 +63,61 @@ class UserController extends Controller
         } else {
             return response()->json(['message' => 'User not found.'], 404);
         }
+    }
+
+    public function login(Request $request){
+        $credentials = $request->only('email','password');
+        try {
+            $token = Auth::attempt($credentials);
+            if (!$token){
+                return response()->json(['error'=>'Invalid Credentials'],404);
+            }
+        }catch (Exception $e){
+            return response()->json(['error' => 'Could not create token'], 500);
+        }
+        $user = Auth::user();
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+            'authorisation' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ]
+        ]);
+    }
+
+    public function register(Request $request)
+    {
+        // Validate incoming request
+        $validator = Validator::make($request->all(), [
+            'f_name' => 'required|string|max:255',
+            'l_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Create user
+        $user = User::create([
+            'f_name' => $request->f_name,
+            'l_name' => $request->l_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Generate token (if using Sanctum or Passport)
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        // Return response
+        return response()->json([
+            'message' => 'Registration successful',
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
 }
