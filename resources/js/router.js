@@ -33,18 +33,21 @@ const routes = [
         path: "/test",
         name: "test",
         component: () => import("./pages/TestRoute.vue"),
+        meta: { requiresAuth: true },
         // beforeEnter: checkUserType,  // Add role check here
     },
     {
         path: "/count",
         name: "count",
         component: () => import("./pages/Count.vue"),
+        meta: { requiresAuth: true },
         // beforeEnter: checkUserType,  // Add role check here
     },
     {
         path: "/",
         name: "home",
         component: () => import("./pages/Home.vue"),  // Optional home route
+        meta: { requiresAuth: true },
     },
 ];
 

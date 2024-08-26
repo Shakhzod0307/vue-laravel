@@ -76,6 +76,14 @@
                         <span v-if="loading">Registering...</span>
                         <span v-else>Register</span>
                     </button>
+                    <p class="text-right mt-3">Already have an account ?
+                        <router-link to="/login"
+                                     class="text-blue-500 hover:text-blue-700 font-semibold
+                                            hover:no-underline transition duration-300">
+                            Login
+                        </router-link>
+
+                    </p>
                 </div>
 
                 <!-- Success Message -->

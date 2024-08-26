@@ -1,75 +1,78 @@
 <template>
-    <div class="text-2xl text-center">
-        Join us now
-    </div>
-    <div class="mt-2 text-xl mb-2 text-center">
-        This is a login page
-    </div>
-    <div class="p-5 m-5">
-        <form @submit.prevent="LoginSubmit">
-            <div class="mb-3 pt-0 text-center">
-                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" for="email">Email:</label>
-                <input type="text"
-                       v-model="email"
-                       :class="{ 'border-red-500': showErrorEmail }"
-                       placeholder="Email"
-                       class="px-2 py-1 placeholder-blueGray-300 text-blueGray-600 relative
-bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring w-1/2"
-                       id="email"
-                       required/>
-            </div>
-            <div class=" pt-0 text-center">
-                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" for="password">Password:</label>
-                <input type="password"
-                       v-model="password"
-                       :class="{ 'border-red-500': showErrorPassword }"
-                       placeholder="Password" class="px-2 py-1 placeholder-blueGray-300 text-blueGray-600 relative
-bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring w-1/2"
-                       id="password"
-                       required/>
-            </div>
-            <div class="mt-3 pt-0 text-center">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Login
-                </button>
-            </div>
-        </form>
+    <div class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded shadow">
+            <h2 class="text-2xl font-bold text-center text-gray-700">Login</h2>
+            <form @submit.prevent="LoginSubmit" >
+                <div>
+                    <label for="email" class="block mb-3 text-sm font-medium text-gray-700">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        v-model="email"
+                        :class="{ 'border-red-500': showErrorEmail }"
+                        placeholder="example@example.com"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm mt-4 mb-3 font-medium text-gray-700">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        v-model="password"
+                        :class="{ 'border-red-500': showErrorPassword }"
+                        placeholder="********"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <button
+                        type="submit"
+                        class="w-full px-4 mt-5 py-2 text-white bg-blue-600
+                         rounded hover:bg-blue-700 focus:outline-none focus:ring-2
+                         focus:ring-blue-500 disabled:opacity-50">
+                        <span>Login</span>
+                    </button>
+                    <p class="text-right mt-3">Don't have an account ?
+                        <router-link to="/register"
+                                     class="text-blue-500 hover:text-blue-700 font-semibold
+                                            hover:no-underline transition duration-300">
+                            Register
+                        </router-link>
+
+                    </p>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import axios from 'axios';
-
 const email = ref('');
 const password = ref('');
 const showErrorEmail = ref(false);
 const showErrorPassword = ref(false);
-
 const LoginSubmit = async () => {
-    // Validate inputs
     showErrorEmail.value = !email.value;
     showErrorPassword.value = !password.value;
-
     if (showErrorEmail.value || showErrorPassword.value) {
         return;
     }
-
     try {
-        // Make the login request
         const response = await axios.post('/api/login', {
             email: email.value,
             password: password.value
         });
-
-        // Access token and user data
         const token = response.data.authorisation.token;
         const user = response.data.user;
-
         if (token) {
             localStorage.setItem('token', token);
             localStorage.setItem('user', JSON.stringify(user));
-            window.location.href = '/test';
+            window.location.href = '/';
         } else {
             console.error('Token not received');
         }
