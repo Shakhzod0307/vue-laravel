@@ -37,6 +37,13 @@ const routes = [
         // beforeEnter: checkUserType,  // Add role check here
     },
     {
+        path: "/image",
+        name: "image",
+        component: () => import("./pages/PictureStore.vue"),
+        meta: { requiresAuth: true },
+        // beforeEnter: checkUserType,  // Add role check here
+    },
+    {
         path: "/count",
         name: "count",
         component: () => import("./pages/Count.vue"),

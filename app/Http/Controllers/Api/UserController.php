@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreImageStoreRequest;
+use App\Models\ImageStore;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -119,4 +121,20 @@ class UserController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response()->json(['success'=>'Successfully logged out']);
     }
+
+    public function imageStore(StoreImageStoreRequest $request)
+    {
+        $user = Auth::user();
+        $path = $request->file('image')->store('images', 'public');
+        $imageStore = new ImageStore();
+        $imageStore->user_id = $user->id;
+        $imageStore->image = $path;
+        $imageStore->save();
+        return response()->json([
+            'message' => 'Image uploaded successfully!',
+            'image_path' => $path,
+        ], 201);
+
+    }
+
 }
