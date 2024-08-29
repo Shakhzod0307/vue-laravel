@@ -56,6 +56,13 @@ const routes = [
         component: () => import("./pages/Home.vue"),  // Optional home route
         meta: { requiresAuth: true },
     },
+    {
+        path: '/user/:id',
+        name: 'User',
+        component: ()=>import("./pages/chat.vue"),
+        props: true,
+        meta: { requiresAuth: true },
+    },
 ];
 
 // Create router instance

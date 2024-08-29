@@ -3,10 +3,12 @@
         <!-- Navigation Link -->
         <router-link
             to="/"
-            class="text-blue-500 hover:underline"
+            class="bg-green-500 hover:bg-green-700 text-white font-bold
+                py-2 px-4 rounded transition-colors duration-300 m-20"
         >
             Home
         </router-link>
+        <Logout/>
 
         <!-- Add New User Form -->
         <div>
@@ -76,7 +78,6 @@
                         >
                             Delete
                         </button>
-                        <Logout/>
                     </li>
                 </ul>
             </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\ChatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,5 @@ Route::post('/login',[UserController::class,'login'])->name('login');
 Route::post('/register',[UserController::class,'register'])->name('register');
 Route::middleware('auth:sanctum')->post('/logout',[UserController::class,'logout'])->name('logout');
 Route::middleware('auth:sanctum')->post('/image',[UserController::class,'imageStore'])->name('imageStore');
+
+

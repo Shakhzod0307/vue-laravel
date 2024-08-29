@@ -1,7 +1,8 @@
 <template>
-    <div>
-        <button @click="Logout">Logout</button>
-    </div>
+    <button @click="Logout"
+            class="bg-red-500 hover:bg-red-700 text-white
+                    font-bold py-2 px-4 rounded transition-colors duration-300"
+    >Logout</button>
 </template>
 <script setup>
 import { useRouter } from 'vue-router';
