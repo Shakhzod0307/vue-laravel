@@ -16,7 +16,12 @@ Route::delete('/user/delete/{id}',[UserController::class,'destroy'])->name('dest
 
 Route::post('/login',[UserController::class,'login'])->name('login');
 Route::post('/register',[UserController::class,'register'])->name('register');
-Route::middleware('auth:sanctum')->post('/logout',[UserController::class,'logout'])->name('logout');
-Route::middleware('auth:sanctum')->post('/image',[UserController::class,'imageStore'])->name('imageStore');
 
 
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout',[UserController::class,'logout'])->name('logout');
+    Route::post('/image/store',[UserController::class,'imageStore'])->name('imageStore');
+    Route::get('/dashboard', [ChatController::class, 'index'])->name('dashboard');
+    Route::get('/images', [UserController::class, 'images']);
+});

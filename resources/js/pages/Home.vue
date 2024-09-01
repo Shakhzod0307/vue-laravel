@@ -22,7 +22,7 @@
     <hr>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 md:p-12 w-full p-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6  md:p-12 w-full p-4">
         <div v-for="(user, index) in response" :key="index"   class="p-6 bg-gray-100">
             <a :href="`/user/${user.id}`" class="text-center text-2xl">
                 {{user.f_name}} {{user.l_name}}

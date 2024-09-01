@@ -31,16 +31,35 @@
             </form>
         </div>
     </div>
+    <div v-if="response.data" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:p-12 w-full p-4">
+        <div v-for="(image, index) in response.data" :key="index" class="p-6 bg-gray-100">
+            <img :src="`storage/${image.image}`" alt="Image" class="w-full h-60 scale-100 hover:scale-[1.12] transition-transform object-cover  rounded-lg" />
+            <h2 class="font-semibold text-lg text-center text-gray-800 mt-2">
+                {{ image.user.f_name }}
+                {{ image.user.l_name }}
+            </h2>
+            <p class="mt-2 text-gray-800 text-center">
+                {{ image.user.email || 'No description available.' }}
+            </p>
+        </div>
+    </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import {onMounted, ref} from 'vue';
 import axios from 'axios';
-import { useRouter } from 'vue-router';
-
+import {useRouter} from 'vue-router';
 
 const router = useRouter();
 const image = ref(null);
+const response = ref([]);
+
+const isTokenExpired = () => {
+    const tokenExpiry = localStorage.getItem('token_expiry');
+    if (!tokenExpiry) return true;
+    const now = new Date().getTime();
+    return now > tokenExpiry;
+};
 const handleFileUpload = (event) => {
     image.value = event.target.files[0];
 }
@@ -50,7 +69,7 @@ const submitImage = async () => {
     formData.append('image', image.value);
 
     try {
-        const response = await axios.post('/api/image', formData, {
+        const response = await axios.post('/api/image/store', formData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'multipart/form-data',
@@ -63,4 +82,29 @@ const submitImage = async () => {
         console.log('Error uploading image:', error);
     }
 }
+
+const getValue = async () => {
+    if (isTokenExpired()) {
+        console.log('Token expired');
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('token_expiry');
+        window.location.href = '/login';
+        return;
+    }
+    try {
+        const { data } = await axios.get("/api/images", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        response.value = data;
+        console.log('images:', data);
+    } catch (error) {
+        console.log(error);
+    }
+};
+onMounted(()=>{
+    getValue();
+})
 </script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreImageStoreRequest;
+use App\Http\Resources\ImagesResource;
 use App\Models\ImageStore;
 use App\Models\User;
 use Exception;
@@ -135,6 +136,12 @@ class UserController extends Controller
             'image_path' => $path,
         ], 201);
 
+    }
+
+    public function images()
+    {
+        $images = ImageStore::with('user')->get();
+        return ImagesResource::collection($images);
     }
 
 }

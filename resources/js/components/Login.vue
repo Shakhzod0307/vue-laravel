@@ -71,8 +71,11 @@ const LoginSubmit = async () => {
         const token = response.data.authorisation.token;
         const user = response.data.user;
         if (token) {
+            const expiresIn = 3600;
+            const expirationTime = new Date().getTime() + expiresIn * 1000;
             localStorage.setItem('token', token);
             localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('token_expiry', expirationTime);
             window.location.href = '/';
         } else {
             console.error('Token not received');
